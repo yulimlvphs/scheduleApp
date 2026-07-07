@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.scheduleapp.User.entity.User;
 
 @Getter
 @Entity
@@ -15,17 +16,18 @@ public class Schedule extends BaseTimeEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String username;
-
-    @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
     private String content;
 
-    public Schedule(String title, String username, String content) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    public Schedule(String title, String content, User user) {
         this.title = title;
-        this.username = username;
+        this.user = user;
         this.content = content;
     }
 

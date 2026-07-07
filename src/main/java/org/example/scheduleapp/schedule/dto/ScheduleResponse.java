@@ -7,35 +7,34 @@ import java.time.LocalDateTime;
 public class ScheduleResponse {
 
     private final Long id;
-    private final String username;
     private final String title;
     private final String content;
+    private final String username;
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
     private ScheduleResponse(
             Long id,
-            String username,
             String title,
             String content,
+            String username,
             LocalDateTime createdAt,
             LocalDateTime modifiedAt
     ) {
         this.id = id;
-        this.username = username;
         this.title = title;
         this.content = content;
+        this.username = username;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
     }
 
-    // 정적 팩토리 메서
     public static ScheduleResponse from(Schedule schedule) {
         return new ScheduleResponse(
                 schedule.getId(),
-                schedule.getUsername(),
                 schedule.getTitle(),
                 schedule.getContent(),
+                schedule.getUser().getUsername(),
                 schedule.getCreatedAt(),
                 schedule.getModifiedAt()
         );

@@ -1,7 +1,10 @@
 package org.example.scheduleapp.schedule.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.scheduleapp.User.entity.User;
+import org.example.scheduleapp.User.repository.UserRepository;
 import org.example.scheduleapp.exception.ScheduleNotFoundException;
+import org.example.scheduleapp.exception.UserNotFoundException;
 import org.example.scheduleapp.schedule.dto.ScheduleCreateRequest;
 import org.example.scheduleapp.schedule.dto.ScheduleResponse;
 import org.example.scheduleapp.schedule.dto.ScheduleUpdateRequest;
@@ -17,13 +20,15 @@ import java.util.List;
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public ScheduleResponse createSchedule(ScheduleCreateRequest request) {
+        User user = findUserById(request.getUserId());
         Schedule schedule = new Schedule(
-                request.getUsername(),
                 request.getTitle(),
-                request.getContent()
+                request.getContent(),
+                user
         );
 
         Schedule savedSchedule = scheduleRepository.save(schedule);
@@ -67,5 +72,10 @@ public class ScheduleService {
     private Schedule findScheduleById(Long scheduleId) {
         return scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new ScheduleNotFoundException(scheduleId));
+    }
+
+    private User findUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
     }
 }

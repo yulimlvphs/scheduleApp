@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class ScheduleCreateRequest {
 
-    private String username;
+    private Long userId;
     private String title;
     private String content;
 }
