@@ -23,8 +23,9 @@ public class ScheduleService {
     private final UserRepository userRepository;
 
     @Transactional
-    public ScheduleResponse createSchedule(ScheduleCreateRequest request) {
-        User user = findUserById(request.getUserId());
+    public ScheduleResponse createSchedule(ScheduleCreateRequest request, Long loginUserId) {
+        User user = findUserById(loginUserId);
+
         Schedule schedule = new Schedule(
                 request.getTitle(),
                 request.getContent(),

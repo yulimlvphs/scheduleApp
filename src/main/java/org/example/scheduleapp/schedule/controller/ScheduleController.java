@@ -1,6 +1,9 @@
 package org.example.scheduleapp.schedule.controller;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.example.scheduleapp.User.dto.LoginRequest;
+import org.example.scheduleapp.exception.UnauthorizedException;
 import org.example.scheduleapp.schedule.dto.ScheduleCreateRequest;
 import org.example.scheduleapp.schedule.dto.ScheduleResponse;
 import org.example.scheduleapp.schedule.dto.ScheduleUpdateRequest;
@@ -9,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
+
+import static org.example.scheduleapp.SessionConst.LOGIN_USER_ID;
 
 @RestController
 @RequestMapping("/schedules")
@@ -19,9 +24,16 @@ public class ScheduleController {
 
     @PostMapping
     public ResponseEntity<ScheduleResponse> createSchedule (
-            @Valid @RequestBody ScheduleCreateRequest request
+            @Valid @RequestBody ScheduleCreateRequest request,
+            HttpSession session
     ) {
-        ScheduleResponse response = scheduleService.createSchedule(request);
+        Long loginUserId = (Long) session.getAttribute(LOGIN_USER_ID);
+
+        if(loginUserId == null) {
+            throw new UnauthorizedException();
+        }
+
+        ScheduleResponse response = scheduleService.createSchedule(request, loginUserId);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
