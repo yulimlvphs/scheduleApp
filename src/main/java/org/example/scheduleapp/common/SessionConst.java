@@ -1,4 +1,4 @@
-package org.example.scheduleapp;
+package org.example.scheduleapp.common;
 
 public final class SessionConst {
 

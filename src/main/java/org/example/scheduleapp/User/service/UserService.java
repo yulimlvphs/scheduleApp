@@ -7,6 +7,7 @@ import org.example.scheduleapp.User.dto.UserResponse;
 import org.example.scheduleapp.User.dto.UserUpdateRequest;
 import org.example.scheduleapp.User.entity.User;
 import org.example.scheduleapp.User.repository.UserRepository;
+import org.example.scheduleapp.common.PasswordEncoder;
 import org.example.scheduleapp.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,10 +20,12 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Transactional
     public UserResponse createUser(UserCreateRequest request) {
-        User user = new User(request.getUsername(), request.getEmail(), request.getPassword());
+        User user = new User(request.getUsername(), request.getEmail(), passwordEncoder.encode(request.getPassword()));
 
         User savedUser = userRepository.save(user);
 

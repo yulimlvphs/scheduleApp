@@ -2,7 +2,6 @@ package org.example.scheduleapp.schedule.controller;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.example.scheduleapp.User.dto.LoginRequest;
 import org.example.scheduleapp.exception.UnauthorizedException;
 import org.example.scheduleapp.schedule.dto.ScheduleCreateRequest;
 import org.example.scheduleapp.schedule.dto.ScheduleResponse;
@@ -13,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
-import static org.example.scheduleapp.SessionConst.LOGIN_USER_ID;
+import static org.example.scheduleapp.common.SessionConst.LOGIN_USER_ID;
 
 @RestController
 @RequestMapping("/schedules")
