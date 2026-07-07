@@ -1,10 +1,10 @@
-package org.example.scheduleapp.User.controller;
+package org.example.scheduleapp.user.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.scheduleapp.User.dto.UserCreateRequest;
-import org.example.scheduleapp.User.dto.UserResponse;
-import org.example.scheduleapp.User.dto.UserUpdateRequest;
-import org.example.scheduleapp.User.service.UserService;
+import org.example.scheduleapp.user.dto.UserCreateRequest;
+import org.example.scheduleapp.user.dto.UserResponse;
+import org.example.scheduleapp.user.dto.UserUpdateRequest;
+import org.example.scheduleapp.user.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

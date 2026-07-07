@@ -1,11 +1,11 @@
-package org.example.scheduleapp.User.controller;
+package org.example.scheduleapp.user.controller;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.scheduleapp.User.dto.LoginRequest;
-import org.example.scheduleapp.User.dto.LoginResponse;
-import org.example.scheduleapp.User.service.AuthService;
+import org.example.scheduleapp.user.dto.LoginRequest;
+import org.example.scheduleapp.user.dto.LoginResponse;
+import org.example.scheduleapp.user.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import static org.example.scheduleapp.common.SessionConst.LOGIN_USER_ID;

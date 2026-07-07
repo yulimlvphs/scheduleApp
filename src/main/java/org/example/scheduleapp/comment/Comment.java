@@ -1,38 +1,40 @@
-package org.example.scheduleapp.schedule.entity;
+package org.example.scheduleapp.comment;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.scheduleapp.schedule.entity.Schedule;
 import org.example.scheduleapp.user.entity.User;
 
 @Getter
 @Entity
+@Table(name = "comments")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Schedule extends BaseTimeEntity {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String title;
-
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "Text")
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Schedule(String title, String content, User user) {
-        this.title = title;
-        this.user = user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "schedule_id", nullable = false)
+    private Schedule schedule;
+
+    public Comment(String content, User user, Schedule schedule) {
         this.content = content;
+        this.user = user;
+        this.schedule = schedule;
     }
 
-    public void update(String title, String content) {
-        this.title = title;
+    public void update(String content) {
         this.content = content;
     }
 }

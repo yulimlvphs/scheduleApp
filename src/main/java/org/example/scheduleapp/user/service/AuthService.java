@@ -1,10 +1,10 @@
-package org.example.scheduleapp.User.service;
+package org.example.scheduleapp.user.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.scheduleapp.User.dto.LoginRequest;
-import org.example.scheduleapp.User.dto.LoginResponse;
-import org.example.scheduleapp.User.entity.User;
-import org.example.scheduleapp.User.repository.UserRepository;
+import org.example.scheduleapp.user.dto.LoginRequest;
+import org.example.scheduleapp.user.dto.LoginResponse;
+import org.example.scheduleapp.user.entity.User;
+import org.example.scheduleapp.user.repository.UserRepository;
 import org.example.scheduleapp.common.PasswordEncoder;
 import org.example.scheduleapp.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;

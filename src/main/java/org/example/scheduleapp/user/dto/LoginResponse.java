@@ -1,6 +1,6 @@
-package org.example.scheduleapp.User.dto;
+package org.example.scheduleapp.user.dto;
 import lombok.Getter;
-import org.example.scheduleapp.User.entity.User;
+import org.example.scheduleapp.user.entity.User;
 
 @Getter
 public class LoginResponse {

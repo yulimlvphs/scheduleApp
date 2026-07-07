@@ -1,8 +1,8 @@
 package org.example.scheduleapp.schedule.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.scheduleapp.User.entity.User;
-import org.example.scheduleapp.User.repository.UserRepository;
+import org.example.scheduleapp.user.entity.User;
+import org.example.scheduleapp.user.repository.UserRepository;
 import org.example.scheduleapp.exception.ScheduleNotFoundException;
 import org.example.scheduleapp.exception.UserNotFoundException;
 import org.example.scheduleapp.schedule.dto.ScheduleCreateRequest;

@@ -1,6 +1,6 @@
-package org.example.scheduleapp.User.repository;
+package org.example.scheduleapp.user.repository;
 
-import org.example.scheduleapp.User.entity.User;
+import org.example.scheduleapp.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
