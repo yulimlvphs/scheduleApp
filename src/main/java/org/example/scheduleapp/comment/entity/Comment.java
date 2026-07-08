@@ -1,9 +1,10 @@
-package org.example.scheduleapp.comment;
+package org.example.scheduleapp.comment.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.scheduleapp.schedule.entity.BaseTimeEntity;
 import org.example.scheduleapp.schedule.entity.Schedule;
 import org.example.scheduleapp.user.entity.User;
 
@@ -11,7 +12,7 @@ import org.example.scheduleapp.user.entity.User;
 @Entity
 @Table(name = "comments")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Comment {
+public class Comment extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,9 +33,5 @@ public class Comment {
         this.content = content;
         this.user = user;
         this.schedule = schedule;
-    }
-
-    public void update(String content) {
-        this.content = content;
     }
 }
