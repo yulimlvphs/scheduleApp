@@ -8,4 +8,6 @@ import java.util.List;
 public interface CommentRespository extends JpaRepository<Comment, Long> {
 
     List<Comment> findAllByScheduleId(Long scheduleId);
+
+    int countByScheduleId(Long scheduleId);
 }

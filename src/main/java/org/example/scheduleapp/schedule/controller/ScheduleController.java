@@ -5,14 +5,15 @@ import lombok.RequiredArgsConstructor;
 import org.example.scheduleapp.common.SessionConst;
 import org.example.scheduleapp.exception.UnauthorizedException;
 import org.example.scheduleapp.schedule.dto.ScheduleCreateRequest;
+import org.example.scheduleapp.schedule.dto.SchedulePageResponse;
 import org.example.scheduleapp.schedule.dto.ScheduleResponse;
 import org.example.scheduleapp.schedule.dto.ScheduleUpdateRequest;
 import org.example.scheduleapp.schedule.service.ScheduleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
 import static org.example.scheduleapp.common.SessionConst.LOGIN_USER_ID;
 
 @RestController
@@ -33,8 +34,16 @@ public class ScheduleController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getSchedules() {
-        return ResponseEntity.ok(scheduleService.getSchedules());
+    public ResponseEntity<Page<SchedulePageResponse>> getSchedules(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            HttpSession session
+    ) {
+        Long loginUserId = getLoginUserId(session);
+
+        Page<SchedulePageResponse> responses = scheduleService.getSchedules(loginUserId, page, size);
+
+        return ResponseEntity.ok(responses);
     }
 
     @GetMapping("/{scheduleId}")

@@ -1,7 +1,9 @@
 package org.example.scheduleapp.schedule.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.scheduleapp.comment.repository.CommentRespository;
 import org.example.scheduleapp.exception.UnauthorizedException;
+import org.example.scheduleapp.schedule.dto.SchedulePageResponse;
 import org.example.scheduleapp.user.entity.User;
 import org.example.scheduleapp.user.repository.UserRepository;
 import org.example.scheduleapp.exception.ScheduleNotFoundException;
@@ -11,6 +13,10 @@ import org.example.scheduleapp.schedule.dto.ScheduleResponse;
 import org.example.scheduleapp.schedule.dto.ScheduleUpdateRequest;
 import org.example.scheduleapp.schedule.entity.Schedule;
 import org.example.scheduleapp.schedule.repository.ScheduleRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -22,6 +28,8 @@ public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final UserRepository userRepository;
+    private final CommentRespository commentRespository;
+
 
     @Transactional
     public ScheduleResponse createSchedule(ScheduleCreateRequest request, Long loginUserId) {
@@ -75,6 +83,29 @@ public class ScheduleService {
         validateScheduleOwner(schedule, loginUserId);
 
         scheduleRepository.delete(schedule);
+    }
+
+    public Page<SchedulePageResponse> getSchedules(
+            Long loginUserId,
+            int page,
+            int size
+    ) {
+        User user = findUserById(loginUserId);
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                Sort.by(Sort.Direction.DESC, "modifiedAt") // 일정은 수정일 기준 내림차순으로 조회
+        );
+
+        Page<Schedule> schedules =
+                scheduleRepository.findAllByUser(user, pageable);
+        return schedules.map(schedule -> {
+            int commentCount =
+                    commentRespository.countByScheduleId(schedule.getId());
+            return SchedulePageResponse.of(schedule, commentCount);
+
+        });
+
     }
 
     private Schedule findScheduleById(Long scheduleId) {
