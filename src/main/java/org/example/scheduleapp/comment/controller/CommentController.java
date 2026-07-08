@@ -26,11 +26,7 @@ public class CommentController {
             @Valid @RequestBody CommentCreateRequest request,
             HttpSession session
     ) {
-        Long loginUserId = (Long) session.getAttribute(SessionConst.LOGIN_USER_ID);
-
-        if(loginUserId == null) {
-            throw new UnauthorizedException();
-        }
+        Long loginUserId = getLoginUserId(session);
 
         CommentResponse response = commentService.createComment(scheduleId, loginUserId, request);
 
@@ -43,5 +39,18 @@ public class CommentController {
         List<CommentResponse> responses = commentService.getComments(scheduleId);
 
         return ResponseEntity.ok(responses);
+    }
+
+    private Long getLoginUserId(HttpSession session) {
+
+        Long loginUserId = (Long) session.getAttribute(
+                SessionConst.LOGIN_USER_ID
+        );
+
+        if (loginUserId == null) {
+            throw new UnauthorizedException();
+        }
+
+        return loginUserId;
     }
 }

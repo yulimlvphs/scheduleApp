@@ -1,6 +1,7 @@
 package org.example.scheduleapp.schedule.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.scheduleapp.exception.UnauthorizedException;
 import org.example.scheduleapp.user.entity.User;
 import org.example.scheduleapp.user.repository.UserRepository;
 import org.example.scheduleapp.exception.ScheduleNotFoundException;
@@ -44,16 +45,20 @@ public class ScheduleService {
                 .toList();
     }
 
-    public ScheduleResponse getSchedule(Long scheduleId) {
+    public ScheduleResponse getSchedule(Long scheduleId, Long loginUserId) {
 
         Schedule schedule = findScheduleById(scheduleId);
+
+        validateScheduleOwner(schedule, loginUserId);
 
         return ScheduleResponse.from(schedule);
     }
 
     @Transactional
-    public ScheduleResponse updateSchedule(Long scheduleId, ScheduleUpdateRequest request) {
+    public ScheduleResponse updateSchedule(Long scheduleId, ScheduleUpdateRequest request, Long loginUserId) {
         Schedule schedule = findScheduleById(scheduleId);
+
+        validateScheduleOwner(schedule, loginUserId);
 
         schedule.update(
                 request.getTitle(),
@@ -64,8 +69,10 @@ public class ScheduleService {
     }
 
     @Transactional
-    public void deleteSchedule(Long scheduleId) {
+    public void deleteSchedule(Long scheduleId, Long loginUserId) {
         Schedule schedule = findScheduleById(scheduleId);
+
+        validateScheduleOwner(schedule, loginUserId);
 
         scheduleRepository.delete(schedule);
     }
@@ -78,5 +85,15 @@ public class ScheduleService {
     private User findUserById(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
+    }
+
+    private void validateScheduleOwner(
+            Schedule schedule,
+            Long loginUserId
+    ) {
+
+        if (!schedule.getUser().getId().equals(loginUserId)) {
+            throw new UnauthorizedException();
+        }
     }
 }
